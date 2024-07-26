@@ -6,17 +6,18 @@ function generateRandomNumbers(count, min, max) {
     }
     return randomNumbers;
 }
-console.time("search");
+
 function preprocessBadCharacterShift(pattern) {
     const m = pattern.length;
     const badCharShift = new Map();
     
-    for (let i = 0; i < m - 1; i++) {
-        badCharShift.set(pattern[i], m - i - 1);
+    for (let i = 0; i < m; i++) {
+        badCharShift.set(pattern[i], Math.max(1, m - i - 1));
     }
 
     return badCharShift;
 }
+
 function boyerMoore(array, pattern) {
     const n = array.length;
     const m = pattern.length;
@@ -42,14 +43,35 @@ function boyerMoore(array, pattern) {
     }
     return matches;
 }
-console.timeEnd("search");
-const randomNumbers = generateRandomNumbers(1000000, 0, 1000000);
-console.log("Generated Random Numbers:", randomNumbers);
-const userInput ="98";
-const pattern = userInput.split(",").map(Number);
-const result = boyerMoore(randomNumbers, pattern);
-if (result.length > 0) {
-    console.log(`Pattern found at positions: ${result}`);
-} else {
-    console.log("Pattern not found in the array.");
+
+try {
+    console.time("search");
+
+    const randomNumbers = generateRandomNumbers(1000000, 0, 1000000);
+    console.log("Generated Random Numbers Length:", randomNumbers.length);
+
+    const userInput = "46";
+    const pattern = userInput.split("").map(Number);
+
+    if (pattern.length === 0) {
+        throw new Error("Pattern is empty.");
+    }
+
+    if (pattern.length > randomNumbers.length) {
+        throw new Error("Pattern length exceeds array length.");
+    }
+
+    console.log("Pattern:", pattern);
+
+    const result = boyerMoore(randomNumbers, pattern);
+
+    console.timeEnd("search");
+
+    if (result.length > 0) {
+        console.log(`Pattern found at positions: ${result}`);
+    } else {
+        console.log("Pattern not found in the array.");
+    }
+} catch (error) {
+    console.error("An error occurred:", error);
 }
