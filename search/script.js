@@ -43,9 +43,9 @@ function boyerMoore(array, pattern) {
     return matches;
 }
 console.timeEnd("search");
-const randomNumbers = generateRandomNumbers(10000000, 0, 10000000);
+const randomNumbers = generateRandomNumbers(1000000, 0, 1000000);
 console.log("Generated Random Numbers:", randomNumbers);
-const userInput ="26, 23";
+const userInput ="98";
 const pattern = userInput.split(",").map(Number);
 const result = boyerMoore(randomNumbers, pattern);
 if (result.length > 0) {
